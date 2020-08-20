@@ -2,6 +2,23 @@
 <GridLayout>:
     padding: 10
 
+<PopupWindow>:
+    cols: 1
+
+    input: input
+
+    MDTextField:
+        id: input
+
+        on_text_validate: app.mainLayout.hidePopup()
+
+        hint_text: "Enter username"
+        required: True
+    
+    Button:
+        text: 'Submit'
+        on_press: app.mainLayout.hidePopup()
+
 <MainLayout>:
     input: input
     output: chat
@@ -30,7 +47,6 @@
         MDTextField:
             id: input
 
-            
             on_text_validate: root.btn()
             
             size_hint_y: None

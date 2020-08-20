@@ -1,3 +1,4 @@
+from kivy.uix.gridlayout import GridLayout
 import client
 import threading
 import sys
@@ -8,15 +9,26 @@ import kivy
 from kivymd.app import MDApp
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
 from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 
 from client import DISCONNECT_MESSAGE
 
-USERNAME = input("Enter username to use: ")
 USERCOLOR = random.choice(['#bf3d19', '#b543c4', '#50c443', '#43afc4', '#9bc443', '#c49343'])
 
 Builder.load_file('design.kv')
+
+class PopupWindow(GridLayout):
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+    
+    input = ObjectProperty(None)
+
+    @property
+    def username(self):
+        return self.input.text
 
 class MainLayout(BoxLayout):
 
@@ -29,7 +41,9 @@ class MainLayout(BoxLayout):
         Window.bind(on_resize=self.on_resize)
         Window.bind(on_request_close=self.closeApp)
 
-    
+        self.showPopup()
+
+    USERNAME = ""
     input = ObjectProperty(None)
     output = ObjectProperty(None)
 
@@ -44,14 +58,13 @@ class MainLayout(BoxLayout):
     def on_resize(self, window, width, height):
         self.delLines()
 
-    
+
     def closeApp(self, *largs, **kwargs):
         client.send("!close")
 
-
     def btn(self):
         if self.input.text:
-            client.send(f"[color={USERCOLOR}]{USERNAME}[/color]: {self.input.text}")
+            client.send(f"[color={USERCOLOR}]{self.USERNAME}[/color]: {self.input.text}")
             self.input.text = ""
 
     def receiveMsg(self):
@@ -65,10 +78,24 @@ class MainLayout(BoxLayout):
             self.output.text += f"{msg}\n"
             self.delLines()
 
+    def showPopup(self):
+        self.show = PopupWindow()
+
+        self.popupWindow = Popup(title="Username", content=self.show, size_hint=(None, None), size=(400, 200))
+        self.popupWindow.open()
+
+    def hidePopup(self):
+        if self.show.username:
+            self.USERNAME = self.show.username
+            self.popupWindow.dismiss()
+
+
+        
 class ChatApp(MDApp):
 
     def build(self):
-        return MainLayout()
+        self.mainLayout = MainLayout()
+        return self.mainLayout
     
 if __name__ == '__main__':
     ChatApp().run()
