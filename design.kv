@@ -1,0 +1,43 @@
+#:kivy 1.11.0
+<GridLayout>:
+    padding: 10
+
+<MainLayout>:
+    input: input
+    output: chat
+
+    orientation: 'vertical'
+    spacing: 10
+    padding: 10
+
+    AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'top'
+    
+        MDLabel:
+            id: chat
+            color: 0, 0, 0, 1
+            text_size: self.width, None
+            size_hint_y: None
+            height: self.texture_size[1]
+
+    GridLayout:
+        cols: 2
+        size_hint_y: None
+        height: self.minimum_height
+
+        MDTextField:
+            id: input
+            size_hint_y: None
+            height: 10
+            hint_text: "type a message:"
+            
+        MDIconButton:
+            icon: "send"
+            on_press: root.btn()
+
+
+        
+        
+        
+
