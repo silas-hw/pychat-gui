@@ -1,14 +1,15 @@
-from kivy.uix.gridlayout import GridLayout
 import client
 import threading
 import sys
 import time
 import random
+import pickle
 
 import kivy
 from kivymd.app import MDApp
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.popup import Popup
 from kivy.properties import ObjectProperty
 from kivy.lang import Builder
@@ -16,6 +17,16 @@ from kivy.lang import Builder
 from client import DISCONNECT_MESSAGE
 
 USERCOLOR = random.choice(['#bf3d19', '#b543c4', '#50c443', '#43afc4', '#9bc443', '#c49343'])
+
+class User():
+    def __init__(self, name, colour):
+        self.name = name
+        self.colour = colour
+
+class Message():
+    def __init__(self, content, user):
+        self.content = content
+        self.user = user  
 
 Builder.load_file('design.kv')
 
@@ -43,7 +54,8 @@ class MainLayout(BoxLayout):
 
         self.showPopup()
 
-    USERNAME = ""
+        self.user = User("Blank", USERCOLOR)
+
     input = ObjectProperty(None)
     output = ObjectProperty(None)
 
@@ -58,24 +70,27 @@ class MainLayout(BoxLayout):
     def on_resize(self, window, width, height):
         self.delLines()
 
-
     def closeApp(self, *largs, **kwargs):
-        client.send("!close")
+
+        msg = Message("!close", self.user)
+        client.send(msg)
 
     def btn(self):
         if self.input.text:
-            client.send(f"[color={USERCOLOR}]{self.USERNAME}[/color]: {self.input.text}")
+
+            msg = Message(self.input.text, self.user)
+            client.send(msg)
             self.input.text = ""
 
     def receiveMsg(self):
         while True:
             msg = client.receive()
 
-            if msg == DISCONNECT_MESSAGE:
+            if msg.content == DISCONNECT_MESSAGE:
                 print("Thread ended")
                 return
             
-            self.output.text += f"{msg}\n"
+            self.output.text += f"[color={msg.user.colour}]{msg.user.name}[/color]:{msg.content}\n"
             self.delLines()
 
     def showPopup(self):
@@ -86,11 +101,10 @@ class MainLayout(BoxLayout):
 
     def hidePopup(self):
         if self.show.username:
-            self.USERNAME = self.show.username
+            self.user.name = self.show.username
             self.popupWindow.dismiss()
 
 
-        
 class ChatApp(MDApp):
 
     def build(self):

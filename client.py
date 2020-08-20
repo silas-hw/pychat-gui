@@ -1,4 +1,4 @@
-import socket
+import socket, pickle
 
 USERNAME = 'test'
 
@@ -13,7 +13,7 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDR)
 
 def send(msg):
-    message = msg.encode(FORMAT)
+    message = pickle.dumps(msg)
     msgLength = len(message)
     sendLength = str(msgLength).encode(FORMAT)
     sendLength += b' ' * (HEADER-len(sendLength))
@@ -22,17 +22,9 @@ def send(msg):
 
 def receive():
     msgHeader = client.recv(HEADER).decode(FORMAT)
+
     if msgHeader:
         msgLength = int(msgHeader)
-        msg = client.recv(msgLength).decode(FORMAT)
+        msg = client.recv(msgLength)
+        msg = pickle.loads(msg)
         return msg
-
-class User():
-    def __init__(self, name, colour):
-        self.name = name
-        self.colour = colour
-
-class Message():
-    def __init__(self, content, user):
-        self.content = content
-        self.user = user   
