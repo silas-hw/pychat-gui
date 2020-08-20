@@ -49,7 +49,7 @@ class MainLayout(BoxLayout):
 
     def btn(self):
         if self.input.text:
-            client.send(f"{USERNAME} {self.input.text}")
+            client.send(f"[color=#bf3d19]{USERNAME}[/color]: {self.input.text}")
             self.input.text = ""
 
     def receiveMsg(self):
