@@ -12,6 +12,8 @@ from kivy.lang import Builder
 
 from client import DISCONNECT_MESSAGE
 
+USERNAME = input("Enter username to use: ")
+
 Builder.load_file('design.kv')
 
 class MainLayout(BoxLayout):
@@ -47,7 +49,7 @@ class MainLayout(BoxLayout):
 
     def btn(self):
         if self.input.text:
-            client.send(self.input.text)
+            client.send(f"{USERNAME} {self.input.text}")
             self.input.text = ""
 
     def receiveMsg(self):
