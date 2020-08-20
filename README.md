@@ -14,4 +14,4 @@ A simply chat room app built with kivy and the python sockets module
 
 ## Server activity  
 
-**The server will not always be online and thus the programme will not run properly. If you want the server to be online message me!**  
+**The server will not always be online and thus the program will not run properly. If you want the server to be online message me!**  
