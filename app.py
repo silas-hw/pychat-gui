@@ -2,6 +2,7 @@ import client
 import threading
 import sys
 import time
+import random
 
 import kivy
 from kivymd.app import MDApp
@@ -13,6 +14,7 @@ from kivy.lang import Builder
 from client import DISCONNECT_MESSAGE
 
 USERNAME = input("Enter username to use: ")
+USERCOLOR = random.choice(['#bf3d19', '#b543c4', '#50c443', '#43afc4', '#9bc443', '#c49343'])
 
 Builder.load_file('design.kv')
 
@@ -49,7 +51,7 @@ class MainLayout(BoxLayout):
 
     def btn(self):
         if self.input.text:
-            client.send(f"[color=#bf3d19]{USERNAME}[/color]: {self.input.text}")
+            client.send(f"[color={USERCOLOR}]{USERNAME}[/color]: {self.input.text}")
             self.input.text = ""
 
     def receiveMsg(self):
