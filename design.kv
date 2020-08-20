@@ -29,8 +29,13 @@
 
         MDTextField:
             id: input
+
+            
+            on_text_validate: root.btn()
+            
             size_hint_y: None
             height: 10
+
             hint_text: "type a message:"
             
         MDIconButton:
