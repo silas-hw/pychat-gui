@@ -87,10 +87,9 @@ class MainLayout(BoxLayout):
             msg = client.receive()
 
             if msg.content == DISCONNECT_MESSAGE:
-                print("Thread ended")
                 return
             
-            self.output.text += f"[color={msg.user.colour}]{msg.user.name}[/color]:{msg.content}\n"
+            self.output.text += f"[color={msg.user.colour}]{msg.user.name}[/color]: {msg.content}\n"
             self.delLines()
 
     def showPopup(self):
