@@ -86,7 +86,7 @@ class MainLayout(BoxLayout):
         while True:
             msg = client.receive()
 
-            if not isinstance(str, msg):
+            if not isinstance(str, (msg)):
                 if msg.content == DISCONNECT_MESSAGE:
                     return
                 
