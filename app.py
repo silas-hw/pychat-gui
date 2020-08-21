@@ -86,11 +86,12 @@ class MainLayout(BoxLayout):
         while True:
             msg = client.receive()
 
-            if msg.content == DISCONNECT_MESSAGE:
-                return
-            
-            self.output.text += f"[color={msg.user.colour}]{msg.user.name}[/color]: {msg.content}\n"
-            self.delLines()
+            if msg:
+                if msg.content == DISCONNECT_MESSAGE:
+                    return
+                
+                self.output.text += f"[color={msg.user.colour}]{msg.user.name}[/color]: {msg.content}\n"
+                self.delLines()
 
     def showPopup(self):
         self.show = PopupWindow()
