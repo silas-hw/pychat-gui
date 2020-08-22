@@ -15,18 +15,9 @@ from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 
 from client import DISCONNECT_MESSAGE
+from classes import User, Message
 
 USERCOLOR = random.choice(['#bf3d19', '#b543c4', '#50c443', '#43afc4', '#9bc443', '#c49343'])
-
-class User():
-    def __init__(self, name, colour):
-        self.name = name
-        self.colour = colour
-
-class Message():
-    def __init__(self, content, user):
-        self.content = content
-        self.user = user  
 
 Builder.load_file('design.kv')
 
