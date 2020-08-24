@@ -77,6 +77,11 @@ class MainLayout(BoxLayout):
         while True:
             msg = client.receive()
 
+            if msg == 0:
+                self.output.text += "SERVER CONNECTION CLOSED"
+                self.delLines()
+                return
+
             if not isinstance(msg, str):
                 if msg.content == DISCONNECT_MESSAGE:
                     return

@@ -26,5 +26,9 @@ def receive():
     if msgHeader:
         msgLength = int(msgHeader)
         msg = client.recv(msgLength)
+
+        if len(msg) == 0:
+            return 0
+            
         msg = pickle.loads(msg)
         return msg
