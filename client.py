@@ -21,14 +21,15 @@ def send(msg):
     client.send(message)
 
 def receive():
-    msgHeader = client.recv(HEADER).decode(FORMAT)
+    try:
+        msgHeader = client.recv(HEADER).decode(FORMAT)
 
-    if msgHeader:
-        msgLength = int(msgHeader)
-        msg = client.recv(msgLength)
-
-        if len(msg) == 0:
-            return 0
-            
-        msg = pickle.loads(msg)
-        return msg
+        if msgHeader:
+            msgLength = int(msgHeader)
+            msg = client.recv(msgLength)
+                
+            msg = pickle.loads(msg)
+            return msg
+    
+    except ConnectionResetError:
+        return 0
