@@ -27,17 +27,26 @@
     spacing: 10
     padding: 10
 
-    AnchorLayout:
-        anchor_x: 'left'
-        anchor_y: 'top'
+    FloatLayout:
+        AnchorLayout:
+            pos: 3, 5
+
+            anchor_x: 'left'
+            anchor_y: 'top'
+        
+            MDLabel:
+                id: chat
+                color: 0, 0, 0, 1
+                text_size: self.width, None
+                size_hint_y: None
+                height: self.texture_size[1]
+                markup: True
     
-        MDLabel:
-            id: chat
-            color: 0, 0, 0, 1
-            text_size: self.width, None
-            size_hint_y: None
-            height: self.texture_size[1]
-            markup: True
+        MDIconButton:
+            pos: root.width*0.9, root.height*0.9
+
+            icon: "settings"
+            on_press: root.showPopup()
 
     GridLayout:
         cols: 2
