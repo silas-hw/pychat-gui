@@ -80,6 +80,10 @@ class MainLayout(BoxLayout):
             if msg == 0:
                 self.output.text += "SERVER CONNECTION CLOSED"
                 self.delLines()
+
+                #stop user from sending messages
+                self.input.text = ""
+                self.input.disabled = True
                 return
 
             if not isinstance(msg, str):
