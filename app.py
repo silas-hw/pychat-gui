@@ -89,7 +89,7 @@ class MainLayout(BoxLayout):
                 if msg.content == DISCONNECT_MESSAGE:
                     return
                 
-                self.output.text += emoji.emojize(f"[color={msg.user.colour}]{msg.user.name}[/color]: {msg.content}\n")
+                self.output.text += emoji.emojize(f"[color={msg.user.colour}]{msg.user.name}[/color]: {msg.content}\n", use_aliases=True)
                 self.delLines()
 
     def showPopup(self):
