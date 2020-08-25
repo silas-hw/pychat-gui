@@ -23,13 +23,12 @@ def send(msg):
 def receive():
     try:
         msgHeader = client.recv(HEADER).decode(FORMAT)
-
         if msgHeader:
             msgLength = int(msgHeader)
             msg = client.recv(msgLength)
-                
             msg = pickle.loads(msg)
             return msg
     
+    #if server closes connection
     except ConnectionResetError:
         return 0
