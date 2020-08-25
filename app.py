@@ -62,13 +62,11 @@ class MainLayout(BoxLayout):
         self.delLines()
 
     def closeApp(self, *largs, **kwargs):
-
         msg = Message("!close", self.user)
         client.send(msg)
 
     def btn(self):
         if self.input.text:
-
             msg = Message(self.input.text, self.user)
             client.send(msg)
             self.input.text = ""
@@ -95,7 +93,6 @@ class MainLayout(BoxLayout):
 
     def showPopup(self):
         self.show = PopupWindow()
-
         self.popupWindow = Popup(title="Username", content=self.show, size_hint=(None, None), size=(400, 200))
         self.popupWindow.open()
 
