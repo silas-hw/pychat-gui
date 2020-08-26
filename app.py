@@ -5,6 +5,8 @@ import time
 import random
 import pickle
 import emoji
+import json
+import os
 
 import kivy
 from kivymd.app import MDApp
@@ -44,9 +46,8 @@ class MainLayout(BoxLayout):
         Window.bind(on_resize=self.on_resize)
         Window.bind(on_request_close=self.closeApp)
 
-        self.showPopup()
-
-        self.user = User("Blank", USERCOLOR)
+        if not os.path.isfile(".\\user\\data.txt"):
+            self.showPopup()
 
     input = ObjectProperty(None)
     output = ObjectProperty(None)
@@ -54,6 +55,20 @@ class MainLayout(BoxLayout):
     @property
     def maxLines(self):
         return self.height/23
+
+    @property
+    def user(self):
+        try:
+            with open(".\\user\\data.txt", "r") as f:
+                username = f.read()
+        except FileNotFoundError:
+            username = "Caitlyn"
+            
+        return User(username, USERCOLOR)
+
+    def setUsername(self, name: str):
+        with open(".\\user\\data.txt", "w") as f:
+            userData = f.write(name)
 
     def delLines(self):
         if len(self.output.text.splitlines()) >= self.maxLines:
@@ -99,9 +114,8 @@ class MainLayout(BoxLayout):
 
     def hidePopup(self):
         if self.show.username:
-            self.user.name = self.show.username
+            self.setUsername(self.show.username)
             self.popupWindow.dismiss()
-
 
 class ChatApp(MDApp):
 
